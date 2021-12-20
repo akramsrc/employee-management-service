@@ -1,39 +1,49 @@
 package com.assignment.etisalat.examplewebservice.controller;
 
-import com.assignment.etisalat.examplewebservice.model.DepartmentResponse;
+import com.assignment.etisalat.examplewebservice.model.Department;
 import com.assignment.etisalat.examplewebservice.services.DepartmentService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v2/Department")
 public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
-/*
+
     @PostMapping("create")
-    public ResponseEntity<DepartmentResponse> createDepartment(){
-        return null;
+    @Operation(method = "createDepartment")
+    public Department createDepartment(@RequestBody Department department){
+        return departmentService.createDepartmentRecord(department);
     }
 
+
     @GetMapping("read")
-    public ResponseEntity<DepartmentResponse> readDepartment(){
-        return null;
+    @Operation(method = "readDepartment")
+    public Department readDepartment(@RequestParam Long departmentId){
+        return departmentService.readDepartmentById(departmentId).get();
     }
 
     @PutMapping("update")
-    public ResponseEntity<DepartmentResponse> updateDepartment(){
-        return null;
+    @Operation(method = "updateDepartment")
+    public Department updateDepartment(@NotNull @RequestBody() Department department){
+       return departmentService.updateDepartment(department);
     }
 
     @DeleteMapping("delete")
-    public ResponseEntity<DepartmentResponse> deleteDepartment(){
-        return null;
+    @Operation(method = "deleteDepartment")
+    public void deleteDepartment(@RequestParam Long departmentId){
+        departmentService.deleteDepartmentById(departmentId);
     }
 
     @GetMapping("list")
-    public ResponseEntity<DepartmentResponse> getDepartments(){
-        return null;
-    }*/
+    @Operation(method = "getDepartments")
+    public List<Department> getDepartments(@RequestParam(defaultValue = "0") Integer pageNo,
+                                                       @RequestParam(defaultValue = "10") Integer pageSize){
+        return departmentService.readAllDepartments(pageNo,pageSize);
+    }
 }
